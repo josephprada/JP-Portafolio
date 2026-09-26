@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
+import { BRAND } from "../../i18n/content";
 import { useLang } from "../../i18n/LanguageProvider";
 
 /**
@@ -22,7 +23,13 @@ export function Product() {
     <section id="producto" className="relative border-t bg-ink py-28 md:py-40">
       <div className="shell">
         <h2 className="display max-w-[20ch] text-[9vw] sm:text-[7vw] md:text-[4.5rem] lg:text-[5.5rem]">
-          {t.product.headline}
+          {t.product.headline}{" "}
+          {/* Closing phrase in script, kept inside the h2 so the heading still
+              reads as one sentence. Origin left keeps the rotation from pushing
+              the first line past the shell's left edge. */}
+          <span className="mt-2 block origin-left -rotate-3 font-script text-[clamp(3rem,10vw,7rem)] leading-[0.95] font-normal tracking-normal text-accent normal-case">
+            {t.product.headlineAccent}
+          </span>
         </h2>
         <p className="body-copy mt-6 text-base md:text-lg">{t.product.lede}</p>
 
@@ -35,7 +42,7 @@ export function Product() {
             <p className="body-copy mt-6 text-sm md:text-base">{first.body}</p>
           </motion.div>
 
-          <motion.div {...cell(1)} className="lg:col-span-5">
+          <motion.div {...cell(1)} className="relative lg:col-span-5">
             <img
               src="/work/portrait.webp"
               alt="Joseph Prada"
@@ -44,6 +51,13 @@ export function Product() {
               height={616}
               className="h-72 w-full border border-paper/12 object-cover object-top lg:h-full"
             />
+            {/* Decorative signature over the photo. */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute bottom-4 left-5 origin-left -rotate-6 font-script text-[clamp(2.75rem,6vw,4rem)] leading-none text-paper"
+            >
+              {BRAND.signature}
+            </span>
           </motion.div>
 
           <motion.div

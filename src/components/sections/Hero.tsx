@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { CONTACT } from "../../i18n/content";
 import { useLang } from "../../i18n/LanguageProvider";
 import { gsap, ScrollTrigger, scrollToSection } from "../../lib/scroll";
+import { ScriptWrite } from "../ScriptWrite";
 
 const FRAME_COUNT = 72;
 /**
@@ -237,7 +238,7 @@ export function Hero() {
               initial={reduce ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="label mb-6 flex items-center gap-3"
+              className="label mb-2 flex items-center gap-3"
             >
               <span className="inline-block h-px w-10 bg-accent" />
               {t.hero.role}
@@ -246,17 +247,29 @@ export function Hero() {
             {/* Tighter than the .display default because neither name carries a
                 diacritic, but not so tight that the two words fuse into a slab. */}
             <h1 className="display text-[19vw] leading-[0.94] sm:text-[15vw] md:text-[11rem] lg:text-[13rem]">
-              {[t.hero.firstName, t.hero.lastName].map((word, index) => (
-                <motion.span
-                  key={word}
-                  initial={reduce ? false : { opacity: 0, y: "0.3em" }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.9, delay: index * 0.09, ease: [0.16, 1, 0.3, 1] }}
-                  className="block"
-                >
-                  {index === 1 ? <span className="text-accent">{word}</span> : word}
-                </motion.span>
-              ))}
+              {/* The script first name is sized in em against the surname (170px
+                  over 196px in the design) so the pair scales as one unit at
+                  every breakpoint, and it overlaps the surname's top edge. The
+                  outer span keeps the same entrance tween as before; the write-on
+                  clip-path lives on an inner span so it never touches it. */}
+              <motion.span
+                initial={reduce ? false : { opacity: 0, y: "0.3em" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                className="relative z-10 -mb-[0.565em] -ml-[0.047em] block font-script text-[0.87em] leading-[1.1] font-normal tracking-normal text-paper normal-case"
+              >
+                <ScriptWrite immediate className="inline-block origin-bottom-left -rotate-5">
+                  {t.hero.firstName}
+                </ScriptWrite>
+              </motion.span>
+              <motion.span
+                initial={reduce ? false : { opacity: 0, y: "0.3em" }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.09, ease: [0.16, 1, 0.3, 1] }}
+                className="block"
+              >
+                <span className="text-accent">{t.hero.lastName}</span>
+              </motion.span>
             </h1>
 
             <motion.p

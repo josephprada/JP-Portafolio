@@ -53,6 +53,8 @@ export interface Content {
   };
   product: {
     headline: string;
+    /** Closing phrase of the headline, set in the script face. */
+    headlineAccent: string;
     lede: string;
     blocks: { title: string; body: string }[];
   };
@@ -219,7 +221,8 @@ const es: Content = {
     ],
   },
   product: {
-    headline: "El cliente no compra funcionalidades. Compra que su problema desaparezca.",
+    headline: "El cliente no compra funcionalidades.",
+    headlineAccent: "Compra que su problema desaparezca.",
     lede: "Vengo de diseñar antes de programar, y eso cambia el orden de las preguntas.",
     blocks: [
       {
@@ -430,7 +433,8 @@ const en: Content = {
     ],
   },
   product: {
-    headline: "Clients do not buy features. They buy their problem going away.",
+    headline: "Clients do not buy features.",
+    headlineAccent: "They buy their problem going away.",
     lede: "I came to code through design, and that changes the order of the questions.",
     blocks: [
       {
@@ -508,6 +512,11 @@ const en: Content = {
 };
 
 export const content: Record<Lang, Content> = { es, en };
+
+/** Language-neutral brand mark, rendered in the script face. */
+export const BRAND = {
+  signature: "J. Prada",
+} as const;
 
 export const CONTACT = {
   email: "developerjp0714@gmail.com",

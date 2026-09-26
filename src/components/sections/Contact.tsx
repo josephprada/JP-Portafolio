@@ -2,6 +2,7 @@ import { ArrowUpRightIcon, InstagramLogoIcon, WhatsappLogoIcon } from "@phosphor
 import { motion, useReducedMotion } from "motion/react";
 import { CONTACT } from "../../i18n/content";
 import { useLang } from "../../i18n/LanguageProvider";
+import { ScriptWrite } from "../ScriptWrite";
 
 /**
  * Closing block. No form: the fastest path for a recruiter is a mail client
@@ -44,16 +45,17 @@ export function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          /* This headline is a single unbreakable word, so it cannot wrap its
-             way out of a container it overflows. Fixed rem sizes at md and lg
-             did exactly that: 240px between 768-1023px and 304px between
-             1024-1279px both overran the shell by up to 245px, and the
-             overflow was silently cut by the body's overflow-x. Sizing in vw
-             through that whole range keeps it scaling with the shell; the rem
-             value only takes over past xl, where the shell stops growing. */
-          className="display text-[22vw] leading-[0.82] md:text-[21vw] xl:text-[19rem]"
+          /* Script headline. It can contain a space in English ("Let's talk"),
+             but stays a single line in Spanish, so it must scale with the
+             viewport rather than rely on wrapping: an earlier fixed-rem Anton
+             version overran the shell and was silently cut by the body's
+             overflow-x. The clamp caps at 12.5rem (200px) where the shell stops
+             growing. */
+          className="-ml-2.5 font-script text-[clamp(6rem,24vw,12.5rem)] leading-none font-normal tracking-normal text-accent"
         >
-          {t.contact.headline}
+          <ScriptWrite duration={2} delay={0.3} className="inline-block origin-left -rotate-4">
+            {t.contact.headline}
+          </ScriptWrite>
         </motion.h2>
 
         <div className="mt-14 grid grid-cols-1 gap-12 md:mt-20 lg:grid-cols-12">
