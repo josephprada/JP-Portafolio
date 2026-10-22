@@ -1,0 +1,858 @@
+/*
+ * The city at night. The kit's tokens are remapped to blue-black stone so the
+ * four-tone shading still reads, and light comes in two colours only: amber
+ * for windows, lamps and the core, and the page's red for what is on air.
+ */
+.city {
+  /* Warm white for rooms and lamps, red for neon and what is on air. */
+  --city-amber: #f2c9a0;
+  --city-amber-soft: #f9e2c8;
+  --city-window: #f3dcc0;
+  --city-window-cool: #d6def0;
+  --city-window-red: #ff9a8c;
+  --city-red: #e63329;
+  --city-neon: #ff2a1f;
+  --city-neon-core: #ffd2cc;
+  --city-rose: #ff3d78;
+  --city-rose-core: #ffd3e1;
+  --city-sea: #05080d;
+
+  --anatomy-page: #070a0f;
+  --anatomy-card: #0b0e14;
+  --anatomy-paper: #0d1017;
+  --anatomy-face: #141924;
+  --anatomy-top: #1b2130;
+  --anatomy-shade-0: #0a0d13;
+  --anatomy-shade-1: #0e121a;
+  --anatomy-shade-2: #121722;
+  --anatomy-shade-3: #171d2a;
+  --anatomy-lit-top: #2a2216;
+  --anatomy-lit-shade: #1f1a12;
+  --anatomy-hi: #a9b1c2;
+  --anatomy-mid: #4e566a;
+  --anatomy-lo: #2d3342;
+  --anatomy-faint: #1b202b;
+  --anatomy-lit: #ffd9a0;
+  --anatomy-halo: #000;
+  --anatomy-halo-opacity: 0.8;
+  --anatomy-dot: #ffcf8a;
+  --anatomy-weight: 0.6px;
+}
+
+/*
+ * Rules for the drawing carry no `.city` ancestor on purpose: the copies of
+ * buildings drawn over vehicles live in <use> shadow trees, where selectors
+ * cannot see ancestors outside the copy. This sheet only loads on /canal/.
+ */
+
+/* Materials: small shifts of the same ramp, so stone, glass and metal differ. */
+.m-glass > .iso-top {
+  fill: #1a2233;
+}
+.m-glass > .iso-shade[data-shade="3"] {
+  fill: #18202f;
+}
+.m-glass > .iso-shade[data-shade="2"] {
+  fill: #131a27;
+}
+.m-stone > .iso-top {
+  fill: #232836;
+}
+.m-stone > .iso-shade[data-shade="3"] {
+  fill: #1e2330;
+}
+.m-stone > .iso-shade[data-shade="2"] {
+  fill: #191d29;
+}
+.m-metal > .iso-top {
+  fill: #262c3a;
+}
+.m-island > .iso-top {
+  fill: #10141c;
+}
+.m-island > .iso-shade {
+  fill: #0b0e14;
+}
+.m-leaf > .iso-fill {
+  fill: #0e1a16;
+}
+.m-leaf > .iso-shade {
+  fill: #11201b;
+}
+.m-leaf > .iso-shade[data-shade="3"] {
+  fill: #182a23;
+}
+.m-leaf > .iso-shade[data-shade="2"] {
+  fill: #142520;
+}
+.m-dome > .iso-fill,
+.m-dome > .iso-shade {
+  fill: #1c2231;
+}
+.m-dome > .iso-shade[data-shade="3"] {
+  fill: #2a3142;
+}
+.m-dome > .iso-shade[data-shade="2"] {
+  fill: #232a3a;
+}
+.m-lantern > .iso-fill,
+.m-lantern > .iso-shade,
+.m-lantern > .iso-top {
+  fill: var(--city-amber-soft);
+}
+.m-core > .iso-fill,
+.m-core > .iso-shade {
+  fill: #fff4e0;
+}
+
+/* Ground. */
+.sea {
+  fill: var(--city-sea);
+}
+.sea-swell {
+  stroke: #0b111a;
+}
+.sea-swell.strong {
+  stroke: #111a26;
+}
+.pave {
+  stroke: none;
+}
+.pave-directos {
+  fill: #0f131b;
+}
+.pave-shorts {
+  fill: #11141a;
+}
+.pave-videos {
+  fill: #10131a;
+}
+.pave-malecon {
+  fill: #12141a;
+}
+.pave-plaza {
+  fill: #161a23;
+}
+.pave-stack {
+  fill: #121519;
+}
+.lawn {
+  fill: #0c1512;
+}
+.boardwalk {
+  fill: #19160f;
+}
+.road {
+  fill: #090b10;
+  stroke: none;
+}
+.zebra {
+  fill: #2a303d;
+}
+.ballast {
+  fill: #13151b;
+}
+.rail-yard {
+  fill: #0e1016;
+}
+.lane-dash {
+  stroke-dasharray: 3 4;
+}
+.rail {
+  stroke-width: 0.8px;
+}
+
+/*
+ * Windows and lit surfaces. Everything here uses fill-opacity, never
+ * opacity: on SVG, opacity below 1 makes an effect node, and Chrome walks
+ * every one of them on each frame, static or not.
+ */
+.cw-dark {
+  fill: #0a0d14;
+}
+.cw-lit {
+  fill: var(--city-window);
+}
+.cw-lit[data-l="0"] {
+  fill-opacity: 0.32;
+}
+.cw-lit[data-l="1"] {
+  fill: var(--city-window-cool);
+  fill-opacity: 0.55;
+}
+.cw-lit[data-l="2"] {
+  fill-opacity: 0.8;
+}
+.cw-lit[data-l="3"] {
+  fill: var(--city-window-red);
+}
+.lit-store {
+  fill: var(--city-window);
+  fill-opacity: 0.6;
+}
+.lit-door {
+  fill: var(--city-window);
+  fill-opacity: 0.85;
+}
+.lit-glass {
+  fill: var(--city-window);
+  fill-opacity: 0.3;
+}
+.onair-panel {
+  fill: var(--city-red);
+}
+.onair-text {
+  fill: #fff1ee;
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+}
+.city-sign {
+  fill: var(--city-window);
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+}
+.clock-face {
+  fill: #f4e6c8;
+  stroke: none;
+}
+.clock-hand {
+  fill: none;
+  stroke: #0b0e14;
+  stroke-width: 0.7px;
+  stroke-linecap: round;
+}
+/* The kit's dots fade with opacity; the same look with fill-opacity. */
+.iso-dots circle {
+  opacity: 1;
+  fill-opacity: 0.32;
+}
+.iso-dots[data-tone="hi"] circle {
+  opacity: 1;
+  fill-opacity: 0.85;
+}
+.iso-dots[data-tone="mid"] circle {
+  opacity: 1;
+  fill-opacity: 0.45;
+}
+.iso-dots[data-tone="lo"] circle {
+  opacity: 1;
+  fill-opacity: 0.22;
+}
+.iso-dots[data-tone="faint"] circle {
+  opacity: 1;
+  fill-opacity: 0.12;
+}
+
+/*
+ * Light. In the static city it is plain alpha: over a night city it reads
+ * the same as screen, and a blend mode per glow is one more layer for the
+ * GPU. The lights layer blends with the city once, as a whole (see below).
+ */
+.glow-pool,
+.glow-halo,
+.glow-wash {
+  pointer-events: none;
+}
+.glow-pool {
+  fill: url(#city-pool-amber);
+}
+.glow-pool[data-c="red"] {
+  fill: url(#city-pool-red);
+}
+.glow-pool[data-c="cool"] {
+  fill: url(#city-pool-cool);
+}
+.glow-halo {
+  fill: url(#city-halo-amber);
+}
+.glow-halo[data-c="red"] {
+  fill: url(#city-halo-red);
+}
+.glow-halo[data-c="white"] {
+  fill: url(#city-halo-white);
+}
+.glow-wash {
+  fill: url(#city-wash);
+}
+
+/* Neon: a wide faint stroke for the glow, a thin bright core on top. */
+.neon-glow,
+.neon {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.neon-glow {
+  stroke: var(--city-neon);
+  stroke-width: 5px;
+  stroke-opacity: 0.3;
+}
+.neon {
+  stroke: var(--city-neon-core);
+  stroke-width: 1.2px;
+}
+.neon-glow[data-c="rose"] {
+  stroke: var(--city-rose);
+}
+.neon[data-c="rose"] {
+  stroke: var(--city-rose-core);
+}
+.neon-glow[data-c="white"] {
+  stroke: #cfdcff;
+}
+.neon[data-c="white"] {
+  stroke: #ffffff;
+}
+
+/* Region details. */
+.dock-shut {
+  fill: #1c2230;
+}
+.sign-band {
+  fill: var(--city-red);
+  fill-opacity: 0.95;
+}
+.city-sign.dark {
+  fill: #fff1ee;
+}
+.belt {
+  stroke: var(--city-neon);
+}
+.m-band > .iso-fill,
+.m-band > .iso-shade {
+  fill: #2c3242;
+}
+.m-band > .iso-shade[data-shade="3"] {
+  fill: #3a4256;
+}
+.m-wood > .iso-top {
+  fill: #2a2318;
+}
+.m-canvas > .iso-fill,
+.m-canvas > .iso-shade {
+  fill: #3a2f22;
+}
+.m-canvas > .iso-shade[data-shade="3"] {
+  fill: #4a3b28;
+}
+.wheel-rim {
+  fill: none;
+  stroke: var(--anatomy-hi);
+  stroke-width: 0.9px;
+}
+.wheel-rim.inner {
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.6px;
+}
+.wheel-spokes {
+  fill: none;
+  stroke: var(--anatomy-lo);
+  stroke-width: 0.5px;
+}
+.bulb {
+  fill: var(--city-neon-core);
+}
+.screen {
+  fill: #2b3a52;
+}
+.screen-1 {
+  fill: #4a1d1b;
+}
+.screen-2 {
+  fill: #1f3a36;
+}
+.screen-ink {
+  fill: #f2efe9;
+  fill-opacity: 0.55;
+}
+.picture {
+  fill: var(--city-window);
+  fill-opacity: 0.7;
+  stroke: #0b0e14;
+  stroke-width: 0.6px;
+}
+.vault-door {
+  fill: #2a2418;
+  stroke: var(--city-neon);
+  stroke-width: 0.7px;
+}
+.vault-ring {
+  fill: none;
+  stroke: var(--anatomy-hi);
+  stroke-width: 0.5px;
+}
+
+/* What blinks, chases or slides is drawn live on the canvas (lights.ts). */
+
+/* ---------- The card around the figure ---------- */
+.city {
+  padding-block: 1rem 4rem;
+}
+.city-card {
+  width: min(100% - 2rem, 1440px);
+  margin-inline: auto;
+  border: 1px solid var(--hairline);
+  background: var(--anatomy-page);
+}
+.city-head,
+.city-foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-paper) 55%, transparent);
+}
+.city-title {
+  font: inherit;
+  color: var(--color-paper);
+}
+.city-frame {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--city-sea);
+  border-block: 1px solid var(--hairline);
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+@media (min-width: 768px) {
+  .city-frame {
+    aspect-ratio: 16 / 10;
+    max-height: 82vh;
+    width: 100%;
+  }
+}
+.city-frame:fullscreen {
+  aspect-ratio: auto;
+  max-height: none;
+  width: 100vw;
+  height: 100vh;
+  border: 0;
+}
+.city-frame.is-dragging {
+  cursor: grabbing;
+}
+/* The whole city is one canvas, drawn from bitmap tiles (see live.ts). */
+.city-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.city-zoom {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--hairline);
+  background: color-mix(in oklab, var(--anatomy-page) 85%, transparent);
+}
+.city-zoom button,
+.city-chips button {
+  font-family: var(--font-mono);
+  color: var(--color-paper);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.city-zoom button {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1rem;
+}
+.city-zoom button + button {
+  border-top: 1px solid var(--hairline);
+}
+.city-zoom button:hover,
+.city-chips button:hover {
+  background: color-mix(in oklab, var(--color-paper) 8%, transparent);
+}
+.city-chips {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.city-chips button {
+  flex: none;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid var(--hairline);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-paper) 65%, transparent);
+}
+.city-chips button[aria-pressed="true"] {
+  border-color: var(--city-red);
+  color: #fff1ee;
+  background: color-mix(in oklab, var(--city-red) 18%, transparent);
+}
+.city-zoom button:focus-visible,
+.city-chips button:focus-visible {
+  outline: 1px solid var(--city-amber);
+  outline-offset: 2px;
+}
+.city-readout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem 0.75rem;
+  text-align: right;
+}
+.city-hint-touch {
+  display: none;
+}
+@media (hover: none) {
+  .city-hint-mouse {
+    display: none;
+  }
+  .city-hint-touch {
+    display: inline;
+  }
+}
+.city-readout-title {
+  color: #ff8a80;
+}
+.city-caption {
+  width: min(100% - 2rem, 1440px);
+  margin: 1rem auto 0;
+  max-width: 68ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: color-mix(in oklab, var(--color-paper) 70%, transparent);
+}
+@media (max-width: 767px) {
+  .city-foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .city-readout {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}
+
+/* ---------- Vehicles ---------- */
+.m-van > .iso-top {
+  fill: #c9ccd4;
+}
+.m-van > .iso-shade[data-shade="3"] {
+  fill: #9a9fac;
+}
+.m-van > .iso-shade[data-shade="2"] {
+  fill: #7d8290;
+}
+.m-van > .iso-fill,
+.m-van > .iso-shade[data-shade="0"],
+.m-van > .iso-shade[data-shade="1"] {
+  fill: #5c6170;
+}
+.m-trailer > .iso-top {
+  fill: #3a4256;
+}
+.m-trailer > .iso-shade[data-shade="3"] {
+  fill: #313849;
+}
+.m-trailer > .iso-shade[data-shade="2"] {
+  fill: #29303f;
+}
+.m-train > .iso-top {
+  fill: #d8dbe2;
+}
+.m-train > .iso-shade[data-shade="3"] {
+  fill: #aab0bd;
+}
+.m-train > .iso-shade[data-shade="2"] {
+  fill: #8c93a2;
+}
+.m-loco > .iso-top {
+  fill: #4a2a1e;
+}
+.m-loco > .iso-shade[data-shade="3"] {
+  fill: #6b2c22;
+}
+.m-loco > .iso-shade[data-shade="2"] {
+  fill: #55251d;
+}
+.m-container > .iso-top {
+  fill: #2c3a4a;
+}
+.m-container > .iso-shade[data-shade="3"] {
+  fill: #26323f;
+}
+.m-container.b > .iso-top {
+  fill: #3d3424;
+}
+.m-container.b > .iso-shade[data-shade="3"] {
+  fill: #342c1f;
+}
+.m-hull > .iso-fill,
+.m-hull > .iso-shade {
+  fill: #1f2533;
+}
+.m-hull > .iso-shade[data-shade="3"] {
+  fill: #2c3446;
+}
+.m-cabin > .iso-top {
+  fill: var(--city-amber-soft);
+}
+.m-cabin > .iso-shade {
+  fill: #6b4a22;
+}
+.m-cabin > .iso-shade[data-shade="3"] {
+  fill: #a8742e;
+}
+.rotor-disc {
+  fill: #cfd8ff;
+  fill-opacity: 0.06;
+  stroke: var(--anatomy-mid);
+  stroke-width: 0.4px;
+}
+.rotor-blade {
+  fill: none;
+  stroke: var(--anatomy-hi);
+  stroke-width: 0.8px;
+  stroke-linecap: round;
+}
+
+/* ---------- Props: plazas, yards and street furniture ---------- */
+.m-water > .iso-top,
+.m-water > .iso-fill,
+.m-water > .iso-shade {
+  fill: #13202c;
+}
+.jet {
+  stroke: #cfe0ff;
+  stroke-opacity: 0.55;
+}
+.m-canvas.b > .iso-fill,
+.m-canvas.b > .iso-shade {
+  fill: #3b1f1c;
+}
+.m-canvas.b > .iso-shade[data-shade="3"] {
+  fill: #5a2a24;
+}
+.m-sign > .iso-top,
+.m-sign > .iso-shade {
+  fill: var(--city-amber-soft);
+}
+.m-sign > .iso-shade[data-shade="2"] {
+  fill: #c98f3e;
+}
+.stage-screen {
+  fill: #1d2a44;
+}
+.stage-screen-ink {
+  fill: #9fb4ff;
+  fill-opacity: 0.45;
+}
+.m-parcel > .iso-top {
+  fill: #6b5638;
+}
+.m-parcel > .iso-shade {
+  fill: #4e3f2a;
+}
+.m-parcel > .iso-shade[data-shade="3"] {
+  fill: #5d4b31;
+}
+.m-forklift > .iso-top,
+.m-forklift > .iso-shade[data-shade="3"] {
+  fill: #b58a2e;
+}
+.m-forklift > .iso-shade {
+  fill: #8a6923;
+}
+.m-barrier > .iso-top,
+.m-barrier > .iso-shade {
+  fill: var(--city-red);
+}
+.m-dish > .iso-fill,
+.m-dish > .iso-shade {
+  fill: #3a4256;
+}
+.m-dish > .iso-shade[data-shade="3"] {
+  fill: #59627a;
+}
+
+/* ---------- Titles over the map, tooltip, pause buttons ---------- */
+.city-labels {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* Placed by live.ts with a transform at the region's anchor; drawn centred
+   above that point. */
+.city-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  translate: -50% -100%;
+  /* Moved every frame of a flight: on its own layer the glow is never repainted. */
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.35rem 0.6rem 0.4rem;
+  border: 1px solid color-mix(in oklab, var(--city-red) 55%, transparent);
+  background: color-mix(in oklab, #07090d 78%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--city-red) 15%, transparent),
+    0 0 18px color-mix(in oklab, var(--city-red) 35%, transparent);
+  color: #fff1ee;
+  pointer-events: auto;
+  white-space: nowrap;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+.city-label[hidden] {
+  display: none;
+}
+.city-label:hover,
+.city-label[data-active] {
+  border-color: var(--city-red);
+  background: color-mix(in oklab, var(--city-red) 30%, #07090d);
+}
+.city-label:focus-visible {
+  outline: 1px solid #fff1ee;
+  outline-offset: 2px;
+}
+.city-label-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px color-mix(in oklab, var(--city-neon) 70%, transparent);
+}
+.city-label-sub {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, #fff1ee 62%, transparent);
+}
+
+.city-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  max-width: 17rem;
+  padding: 0.6rem 0.75rem 0.65rem;
+  border-left: 2px solid var(--city-red);
+  background: color-mix(in oklab, #07090d 92%, transparent);
+  box-shadow: 0 8px 28px rgb(0 0 0 / 0.45);
+  pointer-events: none;
+}
+.city-tip[hidden] {
+  display: none;
+}
+.city-tip-kind {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ff8a80;
+}
+.city-tip-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--color-paper);
+}
+.city-tip-summary {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: color-mix(in oklab, var(--color-paper) 65%, transparent);
+}
+
+.city-controls {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  display: flex;
+  gap: 0.4rem;
+}
+.city-controls button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--hairline);
+  background: color-mix(in oklab, var(--anatomy-page) 85%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-paper);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+.city-controls button span {
+  font-size: 0.55rem;
+  color: #ff8a80;
+}
+.city-controls button:hover {
+  border-color: var(--city-red);
+}
+.city-controls button[aria-pressed="true"] {
+  border-color: var(--city-red);
+  background: color-mix(in oklab, var(--city-red) 22%, transparent);
+}
+.city-controls button:focus-visible {
+  outline: 1px solid var(--city-red);
+  outline-offset: 2px;
+}
+
+.city-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-paper) 55%, transparent);
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .city-label {
+    padding: 0.25rem 0.4rem;
+  }
+  .city-label-name {
+    font-size: 0.68rem;
+  }
+  .city-label-sub {
+    display: none;
+  }
+  .city-controls {
+    left: 0.5rem;
+    bottom: 0.5rem;
+    flex-direction: column;
+  }
+  .city-controls button {
+    font-size: 0.55rem;
+    padding: 0.35rem 0.5rem;
+  }
+}
